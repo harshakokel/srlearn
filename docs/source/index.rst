@@ -57,6 +57,14 @@ srlearn
    auto_examples/index
 
 .. toctree::
+   :hidden:
+   :maxdepth: 1
+   :caption: Development
+
+   Code of Conduct 🔗 <https://github.com/hayesall/srlearn/blob/master/.github/CODE_OF_CONDUCT.md>
+   patch_notes
+   
+.. toctree::
   :hidden:
   :caption: Links
 

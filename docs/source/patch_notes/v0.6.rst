@@ -1,0 +1,8 @@
+Version 0.6.0
+=============
+
+Maintenance
+-----------
+
+- Removed TODO comments from source code (Issue :issue:`38`).
+  :pr:`38` by :user:`Elephant34 <Elephant34>`

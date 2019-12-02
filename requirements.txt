@@ -18,4 +18,5 @@ sphinx
 sphinx_rtd_theme
 sphinx_gallery
 numpydoc
+sphinx-issues
 matplotlib

@@ -41,6 +41,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "numpydoc",
+    "sphinx_issues",
     "sphinx_gallery.gen_gallery",
 ]
 
@@ -92,3 +93,9 @@ sphinx_gallery_conf = {
     'reference_url': {
         'srlearn': None}
 }
+
+# Config for sphinx_issues
+
+issues_uri = "https://github.com/hayesall/srlearn/issues/{issue}"
+issues_github_path = "hayesall/srlearn"
+issues_user_uri = "https://github.com/{user}"
