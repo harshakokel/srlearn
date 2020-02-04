@@ -7,18 +7,30 @@ Getting Started
 
 - Java (1.8)
 - Python (3.6, 3.7)
-- Unix-based operating system (Linux/Mac)
 
-If you do not have Java, you might install it with your operating system's package manager.
+Windows
+'''''''
 
-For example, on Ubuntu:
+Exact steps may depend on your setup. The steps here assume `Windows Terminal <https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701>`_ and
+`Chocolatey <https://chocolatey.org/>`_ are installed.
+
+Open the Windows Terminal in Administrator mode. Use Chocolatey to install a Java Development Kit.
+
+.. code-block:: console
+
+    choco install openjdk
+
+MacOS / Linux
+'''''''''''''
+
+Ubuntu:
 
 .. code-block:: bash
 
     sudo apt-get install openjdk-8-jdk
 
 `Jenv <https://www.jenv.be/>`_ might be a helpful way to manage Java versions as well.
-If you're on MacOS it's also failry easy to set up with Homebrew.
+If you're on MacOS it's also fairly easy to set up with Homebrew.
 
 2. Installation
 ---------------
@@ -32,10 +44,11 @@ The package can be installed from the Python Package Index (PyPi) with ``pip``.
 3. Test Installation
 --------------------
 
-A simple test should be whether ``srlearn`` can be imported:
+Do a sanity check by importing ``srlearn``:
 
-.. code-block:: python
+.. code-block:: console
 
+    $ python
     >>> import srlearn
 
 If you've reached this point, you should be ready for the `User Guide <user_guide.html>`_.
