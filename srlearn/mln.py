@@ -22,6 +22,8 @@ class BoostedMLN(BaseBoostedRelationalModel):
     >>> from srlearn import example_data
     """
 
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(
         self,
         background=None,
@@ -54,14 +56,62 @@ class BoostedMLN(BaseBoostedRelationalModel):
             max_tree_depth=max_tree_depth,
         )
 
-        def fit(self, database):
-            pass
+    def fit(self, database):
 
-        def _run_inference(self, database) -> None:
-            pass
+        self._check_params()
 
-        def predict(self, database):
-            pass
+        # Write the background to a file.
+        self.background.write(
+            filename="train", location=self.file_system.files.TRAIN_DIR.value
+        )
 
-        def predict_proba(self, database):
-            pass
+        # Write the data to files.
+        database.write(
+            filename="train", location=self.file_system.files.TRAIN_DIR.value
+        )
+
+        _CALL = (
+            "java -jar "
+            + str(self.file_system.files.BOOST_JAR.value)
+            + " -l -mln -train "
+            + str(self.file_system.files.TRAIN_DIR.value)
+            + " -target "
+            + self.target
+            + " -trees "
+            + str(self.n_estimators)
+            + " > "
+            + str(self.file_system.files.TRAIN_LOG.value)
+        )
+
+        if self.debug:
+            print(_CALL)
+
+        # Call the constructed command.
+        self._call_shell_command(_CALL)
+
+        # Read the trees from files.
+        _estimators = []
+        for _tree_number in range(self.n_estimators):
+            with open(
+                self.file_system.files.TREES_DIR.value.joinpath(
+                    "{0}Tree{1}.tree".format(self.target, _tree_number)
+                )
+            ) as _fh:
+                _estimators.append(_fh.read())
+
+        self.estimators_ = _estimators
+
+        return self
+
+    def _run_inference(self, database) -> None:
+        """Run inference mode on the BoostSRL Jar files.
+
+        This is a helper method for ``self.predict`` and ``self.predict_proba``
+        """
+        return
+
+    def predict(self, database):
+        return
+
+    def predict_proba(self, database):
+        return
