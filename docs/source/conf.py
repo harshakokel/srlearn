@@ -19,7 +19,7 @@ import sphinx_gallery
 # -- Project information -----------------------------------------------------
 
 project = 'srlearn'
-copyright = '2019, Alexander L. Hayes'
+copyright = '2020, Alexander L. Hayes'
 author = 'Alexander L. Hayes'
 
 from srlearn._meta import __version__
@@ -45,8 +45,12 @@ extensions = [
 ]
 
 numpydoc_show_class_members = False
+numpydoc_class_members_toctree = False
 
-autodoc_default_flags = ['members', 'inherited-members']
+autodoc_default_options = {
+    'members': True,
+    'inherited-members': True
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

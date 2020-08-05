@@ -21,6 +21,17 @@ background knowledge, and learning.
 Data Sets
 =========
 
+Built-in data sets:
+
+.. autosummary::
+   :toctree: generated/
+   :template: datasets.rst
+
+   datasets.ToyCancer
+   datasets.ToyFather
+
+Old-style data set API (to be removed):
+
 .. autosummary::
    :toctree: generated/
    :template: dataset.rst
