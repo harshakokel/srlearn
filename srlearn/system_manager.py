@@ -119,19 +119,24 @@ class FileSystem:
     # In case of failure, this directory should be safe to delete.
     boostsrl_data_directory = "bsrl_data"
 
-    def __init__(self):
+    def __init__(self, path=None, preserve_data=False):
         """Initialize a BoostSRL File System.
 
         This will create directories that are cleaned up when the instance
         is de-allocated.
         """
-
+        self.preserve_data= preserve_data
         _here = pathlib.Path(__file__).parent
 
-        # Allocate a location where data can safely be stored.
-        _data = _here.joinpath(FileSystem.boostsrl_data_directory)
-        _allotment_number = self._allocate_space(_data)
-        _directory = _data.joinpath("data" + str(_allotment_number))
+        if path is None:
+            # Allocate a location where data can safely be stored.
+            _data = _here.joinpath(FileSystem.boostsrl_data_directory)
+            _allotment_number = self._allocate_space(_data)
+            _directory = _data.joinpath("data" + str(_allotment_number))
+        else:
+            _directory = pathlib.Path(path)
+            _directory.mkdir(parents=True,exist_ok=True)
+
 
         @unique
         class Files(Enum):

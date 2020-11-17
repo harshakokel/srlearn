@@ -162,6 +162,64 @@ mode: cancer(+person).
 mode: smokes(+person).
 ,
            max_tree_depth=3, n_estimators=10, node_size=2, target='cancer')
+>>> clf.predict(example_data.evaluate)
+array([ True,  True,  True, False, False])
+a series of trees.
+
+>>> from srlearn.rdn import BoostedRDN
+>>> from srlearn import Background
+>>> from srlearn import example_data
+>>> bk = Background(
+...     modes=[
+...         "friends(+person,-person).",
+...         "friends(-person,+person).",
+...         "cancer(+person).",
+...         "smokes(+person).",
+...     ],
+...     use_std_logic_variables=True,
+... )
+>>> clf = BoostedRDN(background=bk, target="cancer")
+>>> clf.fit(example_data.train)
+BoostedRDN(background=setParam: nodeSize=2.
+setParam: maxTreeDepth=3.
+setParam: numberOfClauses=100.
+setParam: numberOfCycles=100.
+useStdLogicVariables: true.
+mode: friends(+person,-person).
+mode: friends(-person,+person).
+mode: cancer(+person).
+mode: smokes(+person).
+,
+           max_tree_depth=3, n_estimators=10, node_size=2, target='cancer')
+>>> clf.predict(example_data.evaluate)
+array([ True,  True,  True, False, False])
+a series of trees.
+
+>>> from srlearn.rdn import BoostedRDN
+>>> from srlearn import Background
+>>> from srlearn import example_data
+>>> bk = Background(
+...     modes=[
+...         "friends(+person,-person).",
+...         "friends(-person,+person).",
+...         "cancer(+person).",
+...         "smokes(+person).",
+...     ],
+...     use_std_logic_variables=True,
+... )
+>>> clf = BoostedRDN(background=bk, target="cancer")
+>>> clf.fit(example_data.train)
+BoostedRDN(background=setParam: nodeSize=2.
+setParam: maxTreeDepth=3.
+setParam: numberOfClauses=100.
+setParam: numberOfCycles=100.
+useStdLogicVariables: true.
+mode: friends(+person,-person).
+mode: friends(-person,+person).
+mode: cancer(+person).
+mode: smokes(+person).
+,
+           max_tree_depth=3, n_estimators=10, node_size=2, target='cancer')
 >>> clf.predict(example_data.test)
 array([ True,  True,  True, False, False])
 

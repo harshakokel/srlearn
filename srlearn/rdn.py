@@ -86,7 +86,7 @@ class BoostedRDN(BaseBoostedRelationalModel):
             max_tree_depth=max_tree_depth,
         )
 
-    def fit(self, database):
+    def fit(self, database, path=None, preserve_data=False):
         """Learn structure and parameters.
 
         Fit the structure and parameters of a Relational Dependency Network using a
@@ -97,6 +97,10 @@ class BoostedRDN(BaseBoostedRelationalModel):
         ----------
         database : :class:`srlearn.database.Database`
             Database containing examples and facts.
+        path : str (default: "None")
+            Path of folder to save the Database and fitted model
+        preserve_data: bool (default: False)
+            Set True if the database and model are to be preserved
 
         Returns
         -------
@@ -119,7 +123,7 @@ class BoostedRDN(BaseBoostedRelationalModel):
         .. [2] https://starling.utdallas.edu/software/boostsrl/
         """
 
-        self._check_params()
+        self._check_params(path, preserve_data)
 
         # Write the background to file.
         self.background.write(
@@ -392,7 +396,7 @@ class BoostedRDNRegressor(BaseBoostedRelationalModel):
             max_tree_depth=max_tree_depth,
         )
 
-    def fit(self, database):
+    def fit(self, database, path=None, preserve_data=False):
         """Learn structure and parameters.
 
         Fit the structure and parameters of a Relational Dependency Network using a
@@ -403,6 +407,10 @@ class BoostedRDNRegressor(BaseBoostedRelationalModel):
         ----------
         database : :class:`srlearn.database.Database`
             Database containing examples and facts.
+        path : str (default: "None")
+            Path of folder to save the Database and fitted model
+        preserve_data: bool (default: False)
+            Set True if the database and model are to be preserved
 
         Returns
         -------
@@ -426,7 +434,7 @@ class BoostedRDNRegressor(BaseBoostedRelationalModel):
         .. [3] https://starling.utdallas.edu/software/boostsrl/
         """
 
-        self._check_params()
+        self._check_params(path, preserve_data)
 
         # Write the background to file.
         self.background.write(

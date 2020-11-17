@@ -72,7 +72,11 @@ class BaseBoostedRelationalModel(BaseEstimator, ClassifierMixin):
         self.max_tree_depth = max_tree_depth
         self.debug = DEBUG
 
-    def _check_params(self):
+    # @property
+    # def file_system(self, path):        # If all params are valid, allocate a FileSystem:
+    #     self.file_system = FileSystem(path=path)
+
+    def _check_params(self, path=None, preserve_data=False):
         """Check validity of parameters. Raise ValueError if errors are detected.
 
         If all parameters are valid, instantiate ``self.file_system`` by
@@ -109,8 +113,7 @@ class BaseBoostedRelationalModel(BaseEstimator, ClassifierMixin):
                 )
             )
 
-        # If all params are valid, allocate a FileSystem:
-        self.file_system = FileSystem()
+        self.file_system= FileSystem(path=path, preserve_data=preserve_data)
 
     @property
     def feature_importances_(self):
@@ -129,7 +132,9 @@ class BaseBoostedRelationalModel(BaseEstimator, ClassifierMixin):
 
         for tree_number in range(self.n_estimators):
             _rules_string = self.estimators_[tree_number]
-            features += parse_tree(_rules_string, (not self.background.use_std_logic_variables))
+            features += parse_tree(
+                _rules_string, (not self.background.use_std_logic_variables)
+            )
         return Counter(features)
 
     def _check_initialized(self):
