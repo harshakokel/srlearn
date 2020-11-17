@@ -15,6 +15,7 @@ from .background import Background
 from .system_manager import FileSystem
 from .utils._parse_trees import parse_tree
 from ._meta import DEBUG
+from ._meta import __version__
 
 
 class BaseBoostedRelationalModel(BaseEstimator, ClassifierMixin):
@@ -114,6 +115,86 @@ class BaseBoostedRelationalModel(BaseEstimator, ClassifierMixin):
             )
 
         self.file_system= FileSystem(path=path, preserve_data=preserve_data)
+
+    def to_json(self, file_name) -> None:
+        """"""
+        check_is_fitted(self, "estimators_")
+
+        import json
+
+        with open(
+            self.file_system.files.BRDNS_DIR.value.joinpath(
+                "{0}.model".format(self.target)
+            ),
+            "r",
+        ) as _fh:
+            _model = _fh.read().splitlines()
+
+        model_params = {
+            "background": dict(self.background.__dict__.items()),
+            "target": self.target,
+            "n_estimators": self.n_estimators,
+            "node_size": self.node_size,
+            "max_tree_depth": self.max_tree_depth,
+        }
+
+        with open(file_name, "w") as _fh:
+            _fh.write(json.dumps([__version__, _model, self.estimators_, model_params]))
+
+    def from_json(self, file_name):
+        """"""
+
+        import json
+
+        with open(file_name, "r") as _fh:
+            params = json.loads(_fh.read())
+
+        _read_version = params[0]
+        _model = params[1]
+        _estimators = params[2]
+        _model_parameters = params[3]
+
+        if _read_version != __version__:
+            print(
+                "Version of loaded model ({0}) does not match srlearn version ({1}).".format(
+                    params[0], __version__
+                )
+            )
+
+        _bkg = Background()
+        _bkg.__dict__ = _model_parameters['background']
+
+        self.__init__(
+            background=_bkg,
+            target=_model_parameters['target'],
+            n_estimators=_model_parameters['n_estimators'],
+            node_size=_model_parameters['node_size'],
+            max_tree_depth=_model_parameters["max_tree_depth"],
+        )
+
+        self.estimators_ = _estimators
+
+        # Currently allocates the File System.
+        self._check_params()
+
+        self.file_system.files.TREES_DIR.value.mkdir(parents=True)
+
+        with open(
+            self.file_system.files.BRDNS_DIR.value.joinpath(
+                "{0}.model".format(self.target)
+            ),
+            "w",
+        ) as _fh:
+            _fh.write("\n".join(_model))
+
+        for i, _tree in enumerate(_estimators):
+            with open(
+                self.file_system.files.TREES_DIR.value.joinpath(
+                    "{0}Tree{1}.tree".format(self.target, i)
+                ),
+                "w"
+            ) as _fh:
+                _fh.write(_tree)
 
     @property
     def feature_importances_(self):
