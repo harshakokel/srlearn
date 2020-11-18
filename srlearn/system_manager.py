@@ -161,7 +161,8 @@ class FileSystem:
 
     def __del__(self):
         """Clean up the file system on object de-allocation."""
-        shutil.rmtree(self.files.DIRECTORY.value)
+        if not self.preserve_data:
+            shutil.rmtree(self.files.DIRECTORY.value)
 
     @staticmethod
     def _allocate_space(current_directory) -> int:
