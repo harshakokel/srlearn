@@ -28,6 +28,7 @@ class Background:
         use_prolog_variables=False,
         load_all_libraries=False,
         load_all_basic_modes=False,
+        additional_settings=None
     ):
         """Initialize a set of background knowledge
 
@@ -60,7 +61,8 @@ class Background:
             Load ``modes_arithmeticInLogic``, ``modes_comparisonInLogic``,
             ``modes_differentInLogic``, ``modes_listsInLogic``
             These may require many cycles while proving.
-
+        additional_settings : list of str (default: None)
+            Additional settings, if any, that needs to go in the background file.
         Examples
         --------
 
@@ -129,6 +131,7 @@ class Background:
         self.use_prolog_variables = use_prolog_variables
         self.load_all_libraries = load_all_libraries
         self.load_all_basic_modes = load_all_basic_modes
+        self.additional_settings = additional_settings
 
         # Check params are correct at the tail of initialization.
         self._check_params()
@@ -274,7 +277,7 @@ class Background:
 
         _background = ""
         for _attr, _val in _relevant:
-            if _attr in ["modes"]:
+            if _attr in ["modes","additional_settings"]:
                 pass
             else:
                 _background += _background_syntax[_attr].format(str(_val).lower())
@@ -282,6 +285,9 @@ class Background:
         if self.modes:
             for _mode in self.modes:
                 _background += "mode: " + _mode + "\n"
+
+        if self.additional_settings:
+                _background += "\n".join(self.additional_settings)
 
         return _background
 
