@@ -144,7 +144,7 @@ class BoostedRDN(BaseBoostedRelationalModel):
             + self.target
             + " -trees "
             + str(self.n_estimators)
-            + " -NegPosRatio 1 > "
+            + " -NegPosRatio 1 -combine > "
             + str(self.file_system.files.TRAIN_LOG.value)
         )
 
@@ -456,7 +456,7 @@ class BoostedRDNRegressor(BaseBoostedRelationalModel):
             + self.target
             + " -trees "
             + str(self.n_estimators)
-            + " -NegPosRatio 1 > "
+            + " -NegPosRatio 1 -combine > "
             + str(self.file_system.files.TRAIN_LOG.value)
         )
 
